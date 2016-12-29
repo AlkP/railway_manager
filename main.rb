@@ -28,6 +28,8 @@ class Main
         option 'add_new_train'
       when 'w'
         option 'add_new_wagon'
+      when 'wd'
+        option 'remove_wagon_from_train'
       when 'q'
         option 'quit'
       else
@@ -77,29 +79,48 @@ class Main
 
     print_is 'add_new_train', 'confirmation', type: train.type, number: train.number
     pause
-
   end
 
   def add_new_wagon
-    Train.trains_list_print
-    trains = Train.trains_list
-    train_index = '0'
-    until (1..trains.size).to_s.include? train_index do
-      train_index = feedback 'add_new_wagon', 'index_request'
-    end
-    train = trains[train_index.to_i - 1]
+
+    train = list_train_and_get_number_train
+
     if train.type == :cargo
       train.add_wagon_in_train WagonCargo.new
     else
       train.add_wagon_in_train WagonPassenger.new
     end
     print_is 'add_new_wagon', 'wagon_list_title', train_number: train.number, train_size: train.train_size
-    puts train.wagon_list
+    train.print_wagon_list
     pause
+  end
+
+  def remove_wagon_from_train
+
+    train = list_train_and_get_number_train
+
+    print_is 'remove_wagon_from_train', 'title_wagon_list'
+    train.print_wagon_list
+    wagon_index = feedback 'remove_wagon_from_train', 'wagon_index'
+    train.remove_wagon_from_train train.wagon_list[wagon_index.to_i - 1]
+    print_is 'remove_wagon_from_train', 'new_title_wagon_list'
+    train.print_wagon_list
+    pause
+
   end
 
   def wrong_menu
     pause
+  end
+
+  def list_train_and_get_number_train
+    Train.trains_list_print
+    trains = Train.trains_list
+    train_index = '0'
+    until (1..trains.size).to_s.include? train_index do
+      train_index = feedback 'add_new_wagon', 'index_request'
+    end
+    return trains[train_index.to_i - 1]
   end
 
   def pause

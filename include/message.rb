@@ -30,6 +30,13 @@ module Message
       index_request: 'Введите порядковый номер состава: ',
       wagon_list_title: 'Теперь в составе № train_number вагонов: train_size. С номерами: '
     },
+    remove_wagon_from_train: {
+      intro: 'Выберите поезд для удаления вагона',
+      title_wagon_list: 'Текущий перечень вагонов: ',
+      index_request: 'Введите порядковый номер состава: ',
+      wagon_index: 'Введите порядковый номер удаляемого вагона: ',
+      new_title_wagon_list: 'Новый перечень вагонов: '
+    },
     wrong_menu: {
       intro: 'Неверный пункт меню!'
     },

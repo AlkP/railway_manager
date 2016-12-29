@@ -69,7 +69,12 @@ class Train
   end
 
   def wagon_list
-    self.wagons.map.with_index(1) {|wagon, index| " #{index}. № #{wagon.name}"}.to_a
+    self.wagons
+  end
+
+  def print_wagon_list
+    wagon_list = self.wagons.map.with_index(1) {|wagon, index| " #{index}. № #{wagon.name}"}.to_a
+    puts wagon_list
   end
 
   def list_station_in_route
