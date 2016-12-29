@@ -19,13 +19,15 @@ class Main
 
   def run
     loop do
-      available_message
+      available_commands
       commamd = feedback 'get_command'
       case commamd
       when 's'
         option 'add_new_station'
       when 't'
         option 'add_new_train'
+      when 'w'
+        option 'add_new_wagon'
       when 'q'
         option 'quit'
       else
@@ -36,7 +38,7 @@ class Main
 
   private
 
-  def available_message
+  def available_commands
     system 'clear'
     puts Message.available
   end
@@ -78,6 +80,24 @@ class Main
 
   end
 
+  def add_new_wagon
+    Train.trains_list_print
+    trains = Train.trains_list
+    train_index = '0'
+    until (1..trains.size).to_s.include? train_index do
+      train_index = feedback 'add_new_wagon', 'index_request'
+    end
+    train = trains[train_index.to_i - 1]
+    if train.type == :cargo
+      train.add_wagon_in_train WagonCargo.new
+    else
+      train.add_wagon_in_train WagonPassenger.new
+    end
+    print_is 'add_new_wagon', 'wagon_list_title', train_number: train.number, train_size: train.train_size
+    puts train.wagon_list
+    pause
+  end
+
   def wrong_menu
     pause
   end
@@ -97,9 +117,11 @@ class Main
     else
       text = Message.text arg1, arg2
       unless arg3.nil?
-        arg3.each_key{|key| text.gsub! key.to_s, arg3[key].to_s }
+        arg3.each_key do |key|
+          text = text.gsub(key.to_s, arg3[key].to_s)
+        end
       end
-        puts text
+      puts text
     end
   end
 

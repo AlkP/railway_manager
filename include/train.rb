@@ -56,8 +56,20 @@ class Train
     end
   end
 
+  def self.trains_list
+    return @@trains
+  end
+
+  def self.trains_list_print
+    puts @@trains.map.with_index(1){|train, index| "#{index}. Поезд № #{train.number}, тип: #{train.type.to_s}"}
+  end
+
+  def train_size
+    self.wagons.length.to_i
+  end
+
   def wagon_list
-    self.wagons.map {|wagon| wagon.name}.to_a
+    self.wagons.map.with_index(1) {|wagon, index| " #{index}. № #{wagon.name}"}.to_a
   end
 
   def list_station_in_route
@@ -71,7 +83,7 @@ class Train
 
   protected
 
-  attr_accessor :speed, :wagons, :route, :station
+  attr_accessor :speed, :route, :station, :wagons
 
   def speed_zero?
     self.speed.zero?
