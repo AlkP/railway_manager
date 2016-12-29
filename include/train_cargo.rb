@@ -1,7 +1,7 @@
 class TrainCargo < Train
 
-  def initialize
-    super :cargo
+  def initialize number = nil
+    super number, :cargo
   end
 
   protected

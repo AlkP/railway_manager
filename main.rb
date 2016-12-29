@@ -66,7 +66,16 @@ class Main
 
     print_is 'add_new_train', 'name_title'
     new_number = feedback 'add_new_train', 'name_request'
-    Train.new new_number, type
+
+    if type == '1'
+      train = TrainPassenger.new new_number
+    else
+      train = TrainCargo.new new_number
+    end
+
+    print_is 'add_new_train', 'confirmation', " Номер нового #{train.type} состава: #{train.number}"
+    pause
+
   end
 
   def wrong_menu
@@ -82,12 +91,13 @@ class Main
     exit
   end
 
-  def print_is arg1, arg2 = nil
+  def print_is arg1, arg2 = nil, arg3 = nil
     if arg2.nil?
-      puts Message.system arg1
+      print Message.system arg1
     else
-      puts Message.text arg1, arg2
+      print Message.text arg1, arg2
     end
+    puts arg3.nil? ? '' : arg3
   end
 
   def feedback arg1, arg2 = nil
