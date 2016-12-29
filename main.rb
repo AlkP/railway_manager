@@ -73,7 +73,7 @@ class Main
       train = TrainCargo.new new_number
     end
 
-    print_is 'add_new_train', 'confirmation', " Номер нового #{train.type} состава: #{train.number}"
+    print_is 'add_new_train', 'confirmation', type: train.type, number: train.number
     pause
 
   end
@@ -93,11 +93,14 @@ class Main
 
   def print_is arg1, arg2 = nil, arg3 = nil
     if arg2.nil?
-      print Message.system arg1
+      puts Message.system arg1
     else
-      print Message.text arg1, arg2
+      text = Message.text arg1, arg2
+      unless arg3.nil?
+        arg3.each_key{|key| text.gsub! key.to_s, arg3[key].to_s }
+      end
+        puts text
     end
-    puts arg3.nil? ? '' : arg3
   end
 
   def feedback arg1, arg2 = nil

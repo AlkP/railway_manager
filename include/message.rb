@@ -24,7 +24,7 @@ module Message
       type_request: 'Тип позда: ',
       name_title: 'Теперь задайте номер состава. ',
       name_request: 'Если вы не введите номер, он сгенерируется автоматически: ',
-      confirmation: 'Создан новый состав.'
+      confirmation: 'Создан новый состав. Номер нового type состава: number'
     },
     wrong_menu: {
       intro: 'Неверный пункт меню!'
