@@ -30,6 +30,8 @@ class Main
         option 'add_new_wagon'
       when 'wd'
         option 'remove_wagon_from_train'
+      when 'm'
+        option 'move_train_to_station'
       when 'q'
         option 'quit'
       else
@@ -83,7 +85,7 @@ class Main
 
   def add_new_wagon
 
-    train = list_train_and_get_number_train
+    train = list_train_and_get_train
 
     if train.type == :cargo
       train.add_wagon_in_train WagonCargo.new
@@ -97,7 +99,7 @@ class Main
 
   def remove_wagon_from_train
 
-    train = list_train_and_get_number_train
+    train = list_train_and_get_train
 
     print_is 'remove_wagon_from_train', 'title_wagon_list'
     train.print_wagon_list
@@ -109,11 +111,34 @@ class Main
 
   end
 
+  def move_train_to_station
+
+    train = list_train_and_get_train
+    print_is 'move_train_to_station', 'station_list'
+    station = list_station_and_get_station
+
+    unless train.current_station.nil?
+      move_train_from_station train
+    end
+    train.move_to station.name
+    station.add_train train
+    print_is 'move_train_to_station', 'title_new_list_train', station_name: station.name
+    station.train_list_print
+    pause
+  end
+
+  def move_train_from_station train
+    railway_stations = RailwayStation.railway_station_list
+    railway_stations.each do |railway_station|
+      railway_station.move_train train if railway_station.name == train.current_station
+    end
+  end
+
   def wrong_menu
     pause
   end
 
-  def list_train_and_get_number_train
+  def list_train_and_get_train
     Train.trains_list_print
     trains = Train.trains_list
     train_index = '0'
@@ -121,6 +146,16 @@ class Main
       train_index = feedback 'add_new_wagon', 'index_request'
     end
     return trains[train_index.to_i - 1]
+  end
+
+  def list_station_and_get_station
+    RailwayStation.railway_station_list_print
+    railway_stations = RailwayStation.railway_station_list
+    railway_station_index = '0'
+    until (1..railway_stations.size).to_s.include? railway_station_index do
+      railway_station_index = feedback 'move_train_to_station', 'index_request'
+    end
+    return railway_stations[railway_station_index.to_i - 1]
   end
 
   def pause

@@ -15,7 +15,7 @@ class Train
   def initialize number = nil, type
     @speed = 0
     @wagons = Array.new
-    @station = ""
+    @station = nil
     @number = new_number number
     @type = type
     @@trains << self
@@ -48,12 +48,17 @@ class Train
   end
 
   def move_to station
-    if self.route.include? station
-      self.station = station
-      return true
-    else
-      return false # станции нет в маршруте
-    end
+    self.station = station
+    # if self.route.include? station
+    #   self.station = station
+    #   return true
+    # else
+    #   return false # станции нет в маршруте
+    # end
+  end
+
+  def current_station
+    self.station
   end
 
   def self.trains_list

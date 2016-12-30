@@ -24,23 +24,31 @@ class RailwayStation
     self.trains.delete(train) unless train.nil?
   end
 
-  def list_of_trains
-    list_train self.trains if self.trains.any?
+  def train_list
+    self.trains if self.trains.any?
   end
 
-  def list_by_type_trains
+  def self.railway_station_list
+    return @@stations
+  end
+
+  def self.railway_station_list_print
+    puts @@stations.map.with_index(1){|station, index| "#{index}. Станция #{station.name}"}
+  end
+
+  def train_list_print
+    self.trains.each do |train|
+      puts "Поезд #{train.number}: #{train.type}"
+    end
+  end
+
+  def train_list_by_type
     count_hash_dublicate self.trains
   end
 
   private
 
   attr_writer :trains
-
-  def list_train trains
-    trains.each do |train|
-      puts "Поезд #{train.number}: #{train.type}"
-    end
-  end
 
   def count_hash_dublicate trains
     train_by_type = Hash.new
