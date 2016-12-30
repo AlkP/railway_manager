@@ -62,7 +62,7 @@ class Main
     end
     RailwayStation.new station
     print_is 'add_new_station', 'title_list_stations'
-    puts RailwayStation.all.to_s
+    RailwayStation.all_print
     pause
   end
 
@@ -131,7 +131,7 @@ class Main
   end
 
   def move_train_from_station train
-    railway_stations = RailwayStation.railway_station_list
+    railway_stations = RailwayStation.all
     railway_stations.each do |railway_station|
       railway_station.move_train train if railway_station.name == train.current_station
     end
@@ -152,8 +152,8 @@ class Main
   end
 
   def list_station_and_get_station
-    RailwayStation.railway_station_list_print
-    railway_stations = RailwayStation.railway_station_list
+    RailwayStation.all_print
+    railway_stations = RailwayStation.all
     railway_station_index = '0'
     until (1..railway_stations.size).to_s.include? railway_station_index do
       railway_station_index = feedback 'move_train_to_station', 'index_request'
@@ -162,7 +162,7 @@ class Main
   end
 
   def list_stations_and_train_on_them
-    railway_stations = RailwayStation.railway_station_list
+    railway_stations = RailwayStation.all
     railway_stations.each.with_index(1) do |railway_station, station_index|
       print_is 'list_stations_and_train_on_them', 'title_station', station_index: station_index, station_name: railway_station.name
       if !railway_station.train_list.nil? && railway_station.train_list.any?

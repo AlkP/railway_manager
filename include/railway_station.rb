@@ -7,7 +7,7 @@ class RailwayStation
   include General
 
   def self.all
-    @@stations.map{|station| station.name}
+    @@stations
   end
 
   def initialize name = nil
@@ -28,11 +28,7 @@ class RailwayStation
     self.trains if self.trains.any?
   end
 
-  def self.railway_station_list
-    return @@stations
-  end
-
-  def self.railway_station_list_print
+  def self.all_print
     puts @@stations.map.with_index(1){|station, index| "#{index}. Станция #{station.name}"}
   end
 
