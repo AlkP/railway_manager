@@ -38,7 +38,7 @@ class RailwayStation
 
   def train_list_print
     self.trains.each do |train|
-      puts "Поезд #{train.number}: #{train.type}"
+      puts "Поезд № #{train.number}: #{train.type}"
     end
   end
 

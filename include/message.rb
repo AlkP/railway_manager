@@ -43,6 +43,11 @@ module Message
       index_request: 'Выберите станцию: ',
       title_new_list_train: 'Теперь на станции "station_name" составы: '
     },
+    list_stations_and_train_on_them: {
+      intro: 'Список станций и поездов на них: ',
+      title_station: 'station_index. Станция с именем "station_name"',
+      title_train_on_station: '  на ней следующие поезда:'
+    },
     wrong_menu: {
       intro: 'Неверный пункт меню!'
     },

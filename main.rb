@@ -32,6 +32,8 @@ class Main
         option 'remove_wagon_from_train'
       when 'm'
         option 'move_train_to_station'
+      when 'l'
+        option 'list_stations_and_train_on_them'
       when 'q'
         option 'quit'
       else
@@ -125,6 +127,7 @@ class Main
     print_is 'move_train_to_station', 'title_new_list_train', station_name: station.name
     station.train_list_print
     pause
+
   end
 
   def move_train_from_station train
@@ -156,6 +159,18 @@ class Main
       railway_station_index = feedback 'move_train_to_station', 'index_request'
     end
     return railway_stations[railway_station_index.to_i - 1]
+  end
+
+  def list_stations_and_train_on_them
+    railway_stations = RailwayStation.railway_station_list
+    railway_stations.each.with_index(1) do |railway_station, station_index|
+      print_is 'list_stations_and_train_on_them', 'title_station', station_index: station_index, station_name: railway_station.name
+      if !railway_station.train_list.nil? && railway_station.train_list.any?
+        print_is 'list_stations_and_train_on_them', 'title_train_on_station'
+        railway_station.train_list_print
+      end
+    end
+    pause
   end
 
   def pause
