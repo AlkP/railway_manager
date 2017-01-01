@@ -1,6 +1,6 @@
 class Train
 
-  @@trains = Array.new
+  @@trains = Hash.new
 
   include General
   include Company
@@ -8,17 +8,16 @@ class Train
   attr_reader :number, :type
 
   def self.find number
-    @@trains.each{|train| return train if train.number == number}
-    return nil
+    return @@trains[number]
   end
 
   def initialize number = nil, type
     @speed = 0
     @wagons = Array.new
     @station = nil
-    @number = new_number number
+    @number = new_number number.to_s, 3
     @type = type
-    @@trains << self
+    @@trains[@number] = self
   end
 
   def speed_up
@@ -61,12 +60,19 @@ class Train
     self.station
   end
 
-  def self.trains_list
+  def self.all
     return @@trains
   end
 
-  def self.trains_list_print
-    puts @@trains.map.with_index(1){|train, index| "#{index}. Поезд № #{train.number}, тип: #{train.type.to_s}"}
+  def self.all_number
+    return @@trains.map{|number,value| number}
+  end
+
+  def self.print_all
+    trains = self.all
+    trains.each_with_index do |(number,train), index|
+      puts "#{index + 1}. Поезд № #{number}, тип: #{trains[number].type.to_s}"
+    end
   end
 
   def train_size

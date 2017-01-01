@@ -2,7 +2,7 @@ class RailwayStation
 
   attr_reader :name, :trains
 
-  @@stations = Array.new
+  @@stations = Hash.new
 
   include General
 
@@ -10,10 +10,21 @@ class RailwayStation
     @@stations
   end
 
+  def self.all_name
+    return @@stations.map{|name,value| name}
+  end
+
+  def self.print_all
+    stations = self.all
+    stations.each_with_index do |(name,station), index|
+      puts "#{index + 1}. Станция #{name}"
+    end
+  end
+
   def initialize name = nil
-    @name = new_number name
+    @name = name
     @trains = Array.new
-    @@stations << self
+    @@stations[@name] = self
   end
 
   def add_train train = nil
@@ -25,32 +36,30 @@ class RailwayStation
   end
 
   def train_list
-    self.trains if self.trains.any?
-  end
-
-  def self.all_print
-    puts @@stations.map.with_index(1){|station, index| "#{index}. Станция #{station.name}"}
+    self.trains
   end
 
   def train_list_print
-    self.trains.each do |train|
-      puts "Поезд № #{train.number}: #{train.type}"
+    trains = Train.all
+    self.trains.each do |number|
+      puts "Поезд № #{number}: #{trains[number].type}"
     end
   end
 
   def train_list_by_type
-    count_hash_dublicate self.trains
+    count_hash_dublicate
   end
 
   private
 
   attr_writer :trains
 
-  def count_hash_dublicate trains
+  def count_hash_dublicate
     train_by_type = Hash.new
-    trains.each do |train|
-      train_by_type[train.type] ||= 0
-      train_by_type[train.type] += 1
+    trains = Train.all
+    self.trains.each do |number|
+      train_by_type[trains[number].type] ||= 0
+      train_by_type[trains[number].type] += 1
     end
     train_by_type.each {|key, value| puts "Поездов #{key}: #{value}" }
   end

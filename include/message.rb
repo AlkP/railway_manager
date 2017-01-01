@@ -22,7 +22,7 @@ module Message
       1. Пассажирский
       2. Грузовой',
       type_request: 'Тип позда: ',
-      name_title: 'Теперь задайте номер состава. ',
+      name_title: 'Теперь задайте номер состава (3 цифры) ',
       name_request: 'Если вы не введите номер, он сгенерируется автоматически: ',
       confirmation: 'Создан новый состав. Номер нового type состава: number'
     },
@@ -39,8 +39,9 @@ module Message
     },
     move_train_to_station: {
       intro: 'Выберите поезд для для перемещения',
+      train_request: 'Введите номер поезда: ',
       station_list: 'Выберите станцию куда переместиться поезд',
-      index_request: 'Выберите станцию: ',
+      index_request: 'Введите наименование станции: ',
       title_new_list_train: 'Теперь на станции "station_name" составы: '
     },
     list_stations_and_train_on_them: {

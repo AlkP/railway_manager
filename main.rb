@@ -62,7 +62,7 @@ class Main
     end
     RailwayStation.new station
     print_is 'add_new_station', 'title_list_stations'
-    RailwayStation.all_print
+    RailwayStation.print_all
     pause
   end
 
@@ -115,26 +115,27 @@ class Main
 
   def move_train_to_station
 
-    train = list_train_and_get_train
+    train_number = list_train_and_get_train
     print_is 'move_train_to_station', 'station_list'
-    station = list_station_and_get_station
+    station_name = list_station_and_get_station
 
-    unless train.current_station.nil?
-      move_train_from_station train
+    unless Train.all[train_number].current_station.nil?
+      move_train_from_station station_name, train_number
     end
-    train.move_to station.name
-    station.add_train train
-    print_is 'move_train_to_station', 'title_new_list_train', station_name: station.name
+    train = Train.all[train_number]
+    station = RailwayStation.all[station_name]
+
+    train.move_to station_name
+    station.add_train train_number
+    print_is 'move_train_to_station', 'title_new_list_train', station_name: station_name
     station.train_list_print
     pause
 
   end
 
-  def move_train_from_station train
-    railway_stations = RailwayStation.all
-    railway_stations.each do |railway_station|
-      railway_station.move_train train if railway_station.name == train.current_station
-    end
+  def move_train_from_station station_name, train_number
+    station = RailwayStation.all[station_name]
+    station.move_train train_number
   end
 
   def wrong_menu
@@ -142,32 +143,33 @@ class Main
   end
 
   def list_train_and_get_train
-    Train.trains_list_print
-    trains = Train.trains_list
+    Train.print_all
+    trains = Train.all
     train_index = '0'
-    until (1..trains.size).to_s.include? train_index do
-      train_index = feedback 'add_new_wagon', 'index_request'
+    until Train.all_number.include? train_index do
+      train_index = feedback 'move_train_to_station', 'train_request'
     end
-    return trains[train_index.to_i - 1]
+    return train_index
   end
 
   def list_station_and_get_station
-    RailwayStation.all_print
+    RailwayStation.print_all
     railway_stations = RailwayStation.all
     railway_station_index = '0'
-    until (1..railway_stations.size).to_s.include? railway_station_index do
+    until RailwayStation.all_name.include? railway_station_index do
       railway_station_index = feedback 'move_train_to_station', 'index_request'
     end
-    return railway_stations[railway_station_index.to_i - 1]
+    return railway_station_index
   end
 
   def list_stations_and_train_on_them
-    railway_stations = RailwayStation.all
-    railway_stations.each.with_index(1) do |railway_station, station_index|
-      print_is 'list_stations_and_train_on_them', 'title_station', station_index: station_index, station_name: railway_station.name
-      if !railway_station.train_list.nil? && railway_station.train_list.any?
+    stations = RailwayStation.all
+    RailwayStation.all_name.each.with_index(1) do |station_name, index|
+      print_is 'list_stations_and_train_on_them', 'title_station', station_index: index, station_name: station_name
+      station = stations[station_name]
+      if !station.train_list.nil? && station.train_list.any?
         print_is 'list_stations_and_train_on_them', 'title_train_on_station'
-        railway_station.train_list_print
+        station.train_list_print
       end
     end
     pause
