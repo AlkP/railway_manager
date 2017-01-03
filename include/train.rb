@@ -15,14 +15,8 @@ class Train
     @station = nil
     @number = new_number number.to_s, NAME_LENGTH
     @type = type
-    @@trains[@number] = self
+    @@trains[@number] = self if valid_number?
     vallid?
-  end
-
-  def valid?
-    validate!
-  rescue StandardError
-    false
   end
 
   def self.find number
@@ -106,6 +100,18 @@ class Train
     return self.route[index-1..index+1]
   end
 
+  def valid?
+    validate!
+  rescue StandardError
+    false
+  end
+
+  def valid_number?
+    validate_number!
+  rescue StandardError
+    false
+  end
+
   protected
 
   attr_accessor :speed, :route, :station, :wagons
@@ -114,6 +120,11 @@ class Train
     raise 'Wagon list nil or not Array class' if self.wagons.nil? || self.wagons.class != Array
     raise 'Number train is short' if self.number.nil? || self.number.length !~ /^\d{#{NAME_LENGTH}}$/
     raise 'Train not save in train list' if @@train[self.number].nil?
+    true
+  end
+
+  def validate_number!
+    raise 'Dublicate train number' if self.number.nil? || !@@trains[self.number].nil?
     true
   end
 
