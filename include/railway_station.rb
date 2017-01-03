@@ -6,6 +6,13 @@ class RailwayStation
 
   include General
 
+  def initialize name = nil
+    @name = name
+    @trains = Array.new
+    @@stations[@name] = self
+    valid?
+  end
+
   def self.all
     @@stations
   end
@@ -19,12 +26,6 @@ class RailwayStation
     stations.each_with_index do |(name,station), index|
       puts "#{index + 1}. Станция #{name}"
     end
-  end
-
-  def initialize name = nil
-    @name = name
-    @trains = Array.new
-    @@stations[@name] = self
   end
 
   def add_train train = nil
@@ -50,9 +51,22 @@ class RailwayStation
     count_hash_dublicate
   end
 
+  def valid?
+    validate!
+  rescue StandardError
+    false
+  end
+
   private
 
   attr_writer :trains
+
+  def validate!
+    raise 'name Railway Station is short' if self.name.nil? || self.name.length < 6
+    raise 'list train not Array class' if self.trains.nil? || self.trains.class != Array
+    raise 'Station not save in Railway Station list' if @@stations[self.name].nil?
+    true
+  end
 
   def count_hash_dublicate
     train_by_type = Hash.new

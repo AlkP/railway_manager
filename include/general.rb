@@ -1,8 +1,10 @@
 module General
 
+  NAME_LENGTH = 5
+
   protected
 
-  def new_number name, length = 5
+  def new_number name, length = NAME_LENGTH
     if name.nil? || name.length != length || name !~ /^\d{#{length}}$/
       name = ''
       until name.length == length do

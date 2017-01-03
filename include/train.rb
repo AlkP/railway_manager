@@ -1,23 +1,32 @@
 class Train
 
+  attr_reader :number, :type
+
   @@trains = Hash.new
 
   include General
   include Company
 
-  attr_reader :number, :type
-
-  def self.find number
-    return @@trains[number]
-  end
+  NAME_LENGTH = 3
 
   def initialize number = nil, type
     @speed = 0
     @wagons = Array.new
     @station = nil
-    @number = new_number number.to_s, 3
+    @number = new_number number.to_s, NAME_LENGTH
     @type = type
     @@trains[@number] = self
+    vallid?
+  end
+
+  def valid?
+    validate!
+  rescue StandardError
+    false
+  end
+
+  def self.find number
+    return @@trains[number]
   end
 
   def speed_up
@@ -100,6 +109,13 @@ class Train
   protected
 
   attr_accessor :speed, :route, :station, :wagons
+
+  def validate!
+    raise 'Wagon list nil or not Array class' if self.wagons.nil? || self.wagons.class != Array
+    raise 'Number train is short' if self.number.nil? || self.number.length !~ /^\d{#{NAME_LENGTH}}$/
+    raise 'Train not save in train list' if @@train[self.number].nil?
+    true
+  end
 
   def speed_zero?
     self.speed.zero?
